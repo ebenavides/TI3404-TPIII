@@ -81,7 +81,82 @@ fun list2tuple (res,lista)=
     then res
     else list2tuple(listuple(0,0,0,hd lista)::res,tl lista )
 
+(*------------------------------------------------------------
+----------------------------------------------------------*)
 
+
+
+(* funcion que verifica quen un año sea bisiesto*)
+
+fun esbisiesto (anio: int)= 
+    if anio mod 4=0 andalso (anio mod 100=0 )not
+    then true
+    else false
+
+(* Fnciones para validar que la fecha sea correcta *)
+
+(*funcion que valida la fecha en una tupla*)
+
+fecha = hd list2tuple 
+     
+fun validatupla (fecha: int*int*int)=
+    if (#2 fecha) = 02
+    then esbisiesto(#3 fecha) = true
+	if (#1 fecha) < 30
+	then true  
+	else if (#2 fecha) = 04 orelse (#2 fecha) = 06 orelse (#2 fecha) = 09 orelse (#2 fecha)= 11
+        then
+            if (#1 fecha) < 31
+	    then true
+	    else if (#2 fecha) = 01 orelse (#2 fecha) = 03 orelse (#2 fecha) = 05 orelse (#2 fecha) = 07 orelse (#2 fecha)= 08 orelse (#2 fecha) = 10 orelse (#2 fecha)= 12
+	    then
+		if (#1 fecha) < 32
+		    then true
+    else false
+
+
+fun aux (hd list2tuple: int*int*int, tl list2tuple:(int*int*int)list, lisresul:(int*int*int)list)=
+    if validatupla (hd list2tuple) = true
+    then lisresul :: (hd list2tuple)
+    else aux (tl list2tuple, lisresul)
+
+fun valida (list2tuple)=
+    if null list2tuple
+    then ["Error la lista no contiene elementos"]
+    else
+	aux( hd list2tuple, tl lidt2tuple, [])
+ 
+
+   
+(*funcion que ordena la lista en forma ascendente*)
+
+fun comparatupla (t1: int*int*int, t2: int*int*int)=
+    if (#1 t1)< (#1 t2) andosol (#2 t1)<= (#2 t2) andsol (#3 t1) <= (#3 t2)
+    then true
+    else false
+
+fun aux (lista:(int*int*int)list, tupla: int*int*int)=
+    if null lista
+    then tupla
+    else if comparar(tupla, hd lista)
+    then aux(tl lista, tupla)
+    else
+	aux (tl lista, hd lista)
+
+fun buscaviejo (list2tuple)=
+    if null lis2tuple
+    then list2tuple
+    else
+	aux (tl list2tuple, hd lista)
+
+
+
+
+
+
+
+(*-----------------------------------------------------------
+---------------------------------------------------------------*)
 
 (*conjunto de meses*)
 val meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -119,4 +194,8 @@ fun convertirFechas ( lista : (int*int*int) list ) =
 (*Funcion que ejecuta las otras funciones*)
 fun main(dir)=
   convertirFechas( list2tuple([], buscar([],[],"",explode_list([],readlist(dir)),0)))
+
+
+
+
 
